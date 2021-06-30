@@ -107,7 +107,8 @@ class BaseController extends Controller
 		return $this->validator->setRules($rules, $messages)->run($input);
 	}
 
-	
+
+	// get user data
 	public function getUserData()
 	{
 		$user = new \App\Models\UserModel();
@@ -121,6 +122,7 @@ class BaseController extends Controller
 		}
 	}
 
+	// cek jika client kirim token atau tidak
 	public function isLoggedin()
 	{
 		$token = $this->request->getServer('HTTP_AUTHORIZATION');

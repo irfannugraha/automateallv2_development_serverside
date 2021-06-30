@@ -59,7 +59,6 @@ class BaseController extends Controller
 		// E.g.: $this->session = \Config\Services::session();
 	}
 
-
 	public function getResponse($pesan, int $code, array $data = null){
 		$error = ($code < 300)?false:true;
 		$body = [
@@ -106,5 +105,14 @@ class BaseController extends Controller
 			$rules = $validation->$rules;
 		}
 		return $this->validator->setRules($rules, $messages)->run($input);
+	}
+
+	public function getUserData()
+	{
+		$user = new \App\Models\UserModel();
+		
+		$token = $this->request->getServer('HTTP_AUTHORIZATION');
+        $data = $user->getUserByJWT($token);
+		return $data;
 	}
 }

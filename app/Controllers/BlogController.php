@@ -15,11 +15,39 @@ class BlogController extends ResourceController
 
     public function blog()
     {
-        return $this->respond([
-            'status' => 200,
-            'message'    => 'OK',
-            'data'       => $this->model->orderBy('tanggalUpload', 'ASC')->findAll(5)
-        ], 200);
+        $last = $this->request->getGet('lastest');
+        $currentDate = $this->request->getGet('currentDate');
+        
+        if($last == 1)
+        {
+            return $this->respond([
+                'status' => 200,
+                'message'    => 'OK',
+                'data'       => $this->model->orderBy('createDate', 'ASC')->findAll(5) //menampilkan data terbaru by createdate
+            ], 200);
+        }
+        elseif($currentDate)
+        {
+            $currDate = $this->model->where('tanggalUpload =', date("Y-m-d", strtotime($currentDate)))->findAll();
+            // var_dump($currDate);
+            // die();
+
+            return $this->respond([
+                'status' => 200,
+                'message'    => 'OK',
+                'data'       => $currDate
+            ], 200);
+        }
+        else
+        {
+            return $this->respond([
+                'status' => 200,
+                'message'    => 'OK',
+                'data'       => $this->model->findAll()
+            ], 200);
+        }
+
+        
     }
 
     public function blogDetail($id)

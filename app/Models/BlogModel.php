@@ -11,4 +11,9 @@ class BlogModel extends Model
     protected $allowedFields = ['judul', 'isi', 'tanggalUpload', 'isDeleted', 'img'];
 }
 
+// public function date()
+// {
+//     return $this->db->where('id_peserta',$id_peserta)->get('laporan')->row();
+// }
+
 ?>

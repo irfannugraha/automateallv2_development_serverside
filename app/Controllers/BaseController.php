@@ -59,8 +59,7 @@ class BaseController extends Controller
 		// E.g.: $this->session = \Config\Services::session();
 	}
 
-
-	public function getResponse($pesan, int $code, array $data = null){
+	public function getResponse($pesan, int $code, $data = null){
 		$error = ($code < 300)?false:true;
 		$body = [
 			'error' => $error,
@@ -106,5 +105,31 @@ class BaseController extends Controller
 			$rules = $validation->$rules;
 		}
 		return $this->validator->setRules($rules, $messages)->run($input);
+	}
+
+
+	// get user data
+	public function getUserData()
+	{
+		$user = new \App\Models\UserModel();
+		
+		$token = $this->request->getServer('HTTP_AUTHORIZATION');
+		if ($token) {
+			$data = $user->getUserByJWT($token);
+			return $data;
+		}else{
+			return false;
+		}
+	}
+
+	// cek jika client kirim token atau tidak
+	public function isLoggedin()
+	{
+		$token = $this->request->getServer('HTTP_AUTHORIZATION');
+		if ($token) {
+			return true;
+		}else{
+			return false;
+		}
 	}
 }

@@ -60,7 +60,6 @@ class UserModel extends Model
         helper('jwt');
         $encodedToken = getJWTFromRequest($jwt);
         $user = getUserDataFromJWT($encodedToken);
-        unset($user['password']);
 
         return $user;
     }

@@ -50,17 +50,16 @@ class Auth extends BaseController
     {
         $rules = [
             'email' => 'required|min_length[6]|max_length[50]|valid_email',
-            'password' => 'required|min_length[8]|max_length[255]|validateUser[email, password]'
+            'password' => 'required|min_length[8]|max_length[255]|validateUser[]'
         ];
 
         $errors = [
             'password' => [
-                'validateUser' => 'Invalid login credentials provided'
+                'validateUser' => 'Invalid login credentials provided',
             ]
         ];
 
         $input = $this->getRequestInput($this->request);
-
 
         if (!$this->validateRequest($input, $rules, $errors)) {
             return $this->getResponse(
